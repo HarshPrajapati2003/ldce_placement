@@ -15,6 +15,10 @@ import Settings from './pages/Settings';
 import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
+import Overview from './pages/Overview/Overview';
+import Team from './pages/Team/Team';
+import Recruiters from './pages/Recruiters/Recruiters';
+import Contact from './pages/Contact/Contact';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -33,6 +37,42 @@ function App() {
   ) : (
     <>
       <Routes>
+        <Route
+          path="/overview"
+          element={
+            <>
+              <PageTitle title="Overview" />
+              <Overview />
+            </>
+          }
+        />
+        <Route
+          path="/team"
+          element={
+            <>
+              <PageTitle title="Our Team" />
+              <Team />
+            </>
+          }
+        />
+        <Route
+          path="/recruiters"
+          element={
+            <>
+              <PageTitle title="Our Recruiters" />
+              <Recruiters />
+            </>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <>
+              <PageTitle title="Contact Us" />
+              <Contact />
+            </>
+          }
+        />
         <Route
           index
           element={
