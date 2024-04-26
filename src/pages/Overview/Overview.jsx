@@ -3,6 +3,48 @@ import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../../layout/DefaultLayout';
 import HeroLogo from '../../images/Overview/overview.svg';
 
+const functions_of_cell = [
+  'Collects and maintains the students database for the purpose of T&P activities',
+  'Does the training need analysis for all third year students. Basing on the same, plans for imparting the necessary skills such as soft skills, hard skills and technical skills.',
+  'Responsible for identifying placement opportunities across reputed organizations.',
+  'Arrange for interaction with industry and bridge the gap between Institute and industry.',
+  'Arranges for better conduct of industry – specific Training programmes',
+  'Assists companies in the recruitment process by conducting interviews, group discussions, written tests etc. in the Campus.',
+  'Arranges the special sessions for providing the contemporary trends and development in the technologies and tools to the students Plan, designs, and imparts Soft skills to the students.',
+  'Plan, designs and imparts personality development to the students.',
+  'Plan, designs and finishing schools to the students.',
+  'Coordinates with Training Officer for identifying the training requirements related to Soft and communication skills'
+];
+
+const Facilities_of_the_cell = [
+  'Serving as a conduit for disseminating information about the college to the external world, including potential employers and industry partners.',
+  'Providing a state-of-the-art auditorium equipped with modern audio-visual facilities for hosting large-scale events, seminars, and presentations.',
+  'Offering well-equipped conference and personal interview rooms furnished with internet and telephonic connectivity to facilitate seamless communication between students and recruiters.',
+  'Furnishing dedicated seminar rooms tailored for smaller group interactions, workshops, and specialized training sessions.',
+  'Ensuring uninterrupted wireless internet connectivity throughout the placement cell premises, enabling students and recruiters to stay connected and access resources online.',
+  'Providing the infrastructure and resources necessary to conduct online tests and assessments, allowing for streamlined recruitment processes and remote evaluations.',
+];
+
+const Role_of_the_coordinator = [
+  'Collect comprehensive data from each department to understand student demographics and skill sets.',
+  'Analyze placement requirements meticulously and guide apprentice participants in exchanging relevant information effectively, ensuring alignment with industry expectations.',
+  'Conduct interviews with students adeptly, providing tailored assistance to graduates throughout the placement process. Continuously review and refine placement procedures to enhance efficiency.',
+  'Utilize diverse communication channels, including phone, email, and fax, to actively promote graduates to a wide array of potential employers, fostering beneficial partnerships.',
+  'Efficiently manage all aspects of interviews conducted on campus, ensuring seamless logistics and a conducive environment for both students and recruiters.',
+  'Clearly articulate the Training & Placement Procedure to students, fostering transparency and understanding while minimizing ambiguity, thus facilitating their active participation and cooperation.',
+];
+
+const Role_of_faculty_member = [
+  'Create awareness about career planning and career mapping among the students.',
+  'Train the students on personality development.',
+  'Organize various training programmes to train the students in the areas of quantitative aptitude, logical reasoning, and verbal reasoning through reputed external training organizations and in-house trainers.',
+  'Conduct mock interviews to train students to perform well in professional interviews as per corporate expectations.',
+  'Formulate and update the yearly calendar of events under the observation of the coordinator.',
+  'Report all related activities to the coordinator.',
+  'Maintain departmental data and regularly update them to the coordinator.',
+];
+
+
 const Overview = () => {
   return (
     <DefaultLayout>
@@ -26,7 +68,7 @@ const Overview = () => {
                   Welcome to Training and Placement Cell of LDCE
                 </h2>
 
-                <p className="mt-4 text-black">
+                <p className="mt-4 text-black font-bold">
                   The Training & Placement cell at L. D. College Of Engineering
                   is committed to providing exceptional opportunities for
                   students to kickstart their careers. At L. D. College Of
@@ -226,12 +268,150 @@ const Overview = () => {
                     <p className="text-3xl p-0 text-primary">•</p>
                   </div>
                   <div className="w-4/5 h-10 py-3 px-1">
-                    <p className="text-primary">Research & Development Laboratories</p>
+                    <p className="text-primary">
+                      Research & Development Laboratories
+                    </p>
                   </div>
                 </div>
               </details>
             </div>
           </div>
+        </div>
+        <div className="max-w-3xl mx-auto px-3 text-center mt-2 text-black font-medium">
+          <h1 className="text-3xl font-bold text-gray-900 leading-tight mb-2 pb-4 relative">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">
+              Functions of the cell
+            </span>
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-500 to-pink-500" />
+          </h1>
+          <ul className="space-y-1 text-gray-500 list-inside dark:text-gray-400 my-3">
+            {functions_of_cell.map((functionItem, index) => (
+              <li key={index} className="flex items-center">
+                <div className="flex">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-circle-check-big me-3 text-primary w-4"
+                    >
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <path d="m9 11 3 3L22 4" />
+                    </svg>
+                  </div>
+                  <div className="text-start">{functionItem}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="max-w-3xl mx-auto px-3 text-center mt-10 text-black font-medium">
+          <h1 className="text-3xl font-bold text-gray-900 leading-tight mb-2 pb-4 relative">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">
+              Facilities of the cell
+            </span>
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-500 to-pink-500" />
+          </h1>
+          <ul className="space-y-1 text-gray-500 list-inside dark:text-gray-400 my-3">
+            {Facilities_of_the_cell.map((functionItem, index) => (
+              <li key={index} className="flex items-center">
+                <div className="flex">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-circle-check-big me-3 text-primary w-4"
+                    >
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <path d="m9 11 3 3L22 4" />
+                    </svg>
+                  </div>
+                  <div className="text-start">{functionItem}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="max-w-3xl mx-auto px-3 text-center mt-10 text-black font-medium">
+          <h1 className="text-3xl font-bold text-gray-900 leading-tight mb-2 pb-4 relative">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">
+              Role of the coordinator
+            </span>
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-500 to-pink-500" />
+          </h1>
+          <ul className="space-y-1 text-gray-500 list-inside dark:text-gray-400 my-3">
+            {Role_of_the_coordinator.map((functionItem, index) => (
+              <li key={index} className="flex items-center">
+                <div className="flex">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-circle-check-big me-3 text-primary w-4"
+                    >
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <path d="m9 11 3 3L22 4" />
+                    </svg>
+                  </div>
+                  <div className="text-start">{functionItem}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="max-w-3xl mx-auto px-3 text-center mt-10 text-black font-medium pb-5">
+          <h1 className="text-3xl font-bold text-gray-900 leading-tight mb-2 pb-4 relative">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">
+              Role of faculty member
+            </span>
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-500 to-pink-500" />
+          </h1>
+          <ul className="space-y-1 text-gray-500 list-inside dark:text-gray-400 my-3">
+            {Role_of_faculty_member.map((functionItem, index) => (
+              <li key={index} className="flex items-center">
+                <div className="flex">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-circle-check-big me-3 text-primary w-4"
+                    >
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <path d="m9 11 3 3L22 4" />
+                    </svg>
+                  </div>
+                  <div className="text-start">{functionItem}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       {/* <!-- ====== Overview Section End ====== --> */}

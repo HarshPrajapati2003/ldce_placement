@@ -19,6 +19,9 @@ import Overview from './pages/Overview/Overview';
 import Team from './pages/Team/Team';
 import Recruiters from './pages/Recruiters/Recruiters';
 import Contact from './pages/Contact/Contact';
+import Recruitment_Process from './pages/Recruitment_Process/Recruitment_Process';
+import Rules from './pages/Rules_Regulations/Rules';
+import Placement_Statistics from './pages/Placement Statistics/Placement_Statistics';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -70,6 +73,33 @@ function App() {
             <>
               <PageTitle title="Contact Us" />
               <Contact />
+            </>
+          }
+        />
+        <Route
+          path="/recruitment-process"
+          element={
+            <>
+              <PageTitle title="Recruitment Process" />
+              <Recruitment_Process />
+            </>
+          }
+        />
+        <Route
+          path="/rules"
+          element={
+            <>
+              <PageTitle title="Recruitment Process" />
+              <Rules />
+            </>
+          }
+        />
+        <Route
+          path="/placement-statistics"
+          element={
+            <>
+              <PageTitle title="Recruitment Process" />
+              <Placement_Statistics />
             </>
           }
         />
