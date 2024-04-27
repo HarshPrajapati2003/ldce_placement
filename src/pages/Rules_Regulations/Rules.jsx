@@ -25,9 +25,9 @@ const Rules = () => {
         <Breadcrumb pageName="Rules and Regulations" />
         {/* <!-- ======  Recruitment_Process section Start ====== --> */}
         <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-          <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+          <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10">
             <div className="grid gap-6 row-gap-10">
-              <div className="lg:py-6 lg:pr-16">
+              <div className="lg:py-6 lg:px-3">
                 {rulesAndRegulations.map((Rule, index) => (
                   <>
                     <div className="flex">
@@ -40,7 +40,7 @@ const Rules = () => {
                         <div className="w-px h-full bg-gray-300" />
                       </div>
                       <div className="pt-1 pb-8">
-                        <p className="mb-2 text-lg font-bold text-black">
+                        <p className="mb-2 text-md md:text-lg font-bold text-black">
                           {Rule}
                         </p>
                       </div>

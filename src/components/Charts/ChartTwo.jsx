@@ -43,7 +43,7 @@ const options = {
   },
 
   xaxis: {
-    categories: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+    categories: ['2016','2017','2018', '2019', '2020', '2021', '2022', '2023', '2024'],
   },
   legend: {
     position: 'top',
@@ -66,12 +66,12 @@ const ChartTwo= () => {
   const [state, setState] = useState({
     series: [
       {
-        name: 'Sales',
-        data: [44, 55, 41, 67, 22, 43, 65],
+        name: 'No. Of Companies',
+        data: [68, 111, 149, 233, 79, 113, 105, 145, 106],
       },
       {
-        name: 'Revenue',
-        data: [13, 23, 20, 8, 13, 27, 15],
+        name: 'Selected Students',
+        data: [486, 559, 633, 652, 621, 629, 805, 970, 798],
       },
     ],
   });
@@ -88,7 +88,7 @@ const ChartTwo= () => {
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">
-            Profit this week
+            Placement Statistics
           </h4>
         </div>
         <div>
@@ -98,8 +98,12 @@ const ChartTwo= () => {
               id="#"
               className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
             >
-              <option value="" className='dark:bg-boxdark'>This Week</option>
-              <option value="" className='dark:bg-boxdark'>Last Week</option>
+              <option value="" className="dark:bg-boxdark">
+                All
+              </option>
+              <option value="" className="dark:bg-boxdark">
+                department name
+              </option>
             </select>
             <span className="absolute top-1/2 right-3 z-10 -translate-y-1/2">
               <svg
