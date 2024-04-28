@@ -22,6 +22,9 @@ import Contact from './pages/Contact/Contact';
 import Recruitment_Process from './pages/Recruitment_Process/Recruitment_Process';
 import Rules from './pages/Rules_Regulations/Rules';
 import Placement_Statistics from './pages/Placement Statistics/Placement_Statistics';
+import ForgotPassword from './pages/Authentication/ForgotPassword';
+import EmailVerify from './pages/Authentication/EmailVerify';
+import ResetPassword from './pages/Authentication/ResetPassword';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -208,6 +211,33 @@ function App() {
             <>
               <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <SignUp />
+            </>
+          }
+        />
+        <Route
+          path="/auth/forgot-password"
+          element={
+            <>
+              <PageTitle title="Forgot Password | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <ForgotPassword />
+            </>
+          }
+        />
+        <Route
+          path="/verifyemail/:token"
+          element={
+            <>
+              <PageTitle title="Verify Email" />
+              <EmailVerify />
+            </>
+          }
+        />
+        <Route
+          path="/reset/:id/:token"
+          element={
+            <>
+              <PageTitle title="Reset Password" />
+              <ResetPassword />
             </>
           }
         />
