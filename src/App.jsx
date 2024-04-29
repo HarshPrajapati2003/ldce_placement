@@ -25,6 +25,7 @@ import Placement_Statistics from './pages/Placement Statistics/Placement_Statist
 import ForgotPassword from './pages/Authentication/ForgotPassword';
 import EmailVerify from './pages/Authentication/EmailVerify';
 import ResetPassword from './pages/Authentication/ResetPassword';
+import InfoForm from './pages/Form/InfoForm';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -148,6 +149,15 @@ function App() {
             <>
               <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <FormLayout />
+            </>
+          }
+        />
+        <Route
+          path="/forms/registration-form"
+          element={
+            <>
+              <PageTitle title="Registration Form" />
+              <InfoForm />
             </>
           }
         />

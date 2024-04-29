@@ -562,6 +562,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                               Form Layout
                             </NavLink>
                           </li>
+                          <li>
+                            <NavLink
+                              to="/forms/registration-form"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              Registration Form
+                            </NavLink>
+                          </li>
                         </ul>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
