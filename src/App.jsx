@@ -26,6 +26,7 @@ import ForgotPassword from './pages/Authentication/ForgotPassword';
 import EmailVerify from './pages/Authentication/EmailVerify';
 import ResetPassword from './pages/Authentication/ResetPassword';
 import InfoForm from './pages/Form/InfoForm';
+import StudentProfile from './pages/StudentProfile';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -126,11 +127,20 @@ function App() {
           }
         />
         <Route
-          path="/profile"
+          path="/profiles"
           element={
             <>
               <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Profile />
+            </>
+          }
+        />
+        <Route
+          path="/student-profile"
+          element={
+            <>
+              <PageTitle title="Profile" />
+              <StudentProfile />
             </>
           }
         />

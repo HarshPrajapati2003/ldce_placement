@@ -48,5 +48,6 @@ export const formSlice = createSlice({
 
 export const selectError = (state) => state.form.error;
 export const selectData = (state) => state.form.formData;
+export const selectFormStatus = (state) => state.form.status;
 
 export default formSlice.reducer;

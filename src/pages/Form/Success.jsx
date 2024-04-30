@@ -27,7 +27,7 @@ const Success = () => {
                   Your Registration Completed Successfully!
                 </p>
                 <h4 className="md:text-2xl text-base text-green-600 font-semibold text-center">
-                  You Registration ID : {formData.data._id}
+                  Your Registration ID : {formData.data._id}
                 </h4>
                 <p className="mt-3">
                   Kindly Contact With Your Department's TPO For Final
@@ -35,10 +35,10 @@ const Success = () => {
                 </p>
                 <div className="py-10 text-center">
                   <Link
-                    to="/"
+                    to="/student-profile"
                     className="inline-flex items-center justify-center rounded-full bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
                   >
-                    GO BACK
+                    View Profile
                   </Link>
                 </div>
               </div>
