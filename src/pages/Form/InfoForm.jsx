@@ -5,7 +5,14 @@ import DefaultLayout from '../../layout/DefaultLayout';
 import DatePickerOne from '../../components/Forms/DatePicker/DatePickerOne';
 import SelectGroupTwo from '../../components/Forms/SelectGroup/SelectGroupTwo';
 import { useForm } from 'react-hook-form';
-import { saveStudentDataAsync, selectData, selectError, selectFormStatus, selectProfileError, selectStudentProfile } from './Redux/FormSlice';
+import {
+  saveStudentDataAsync,
+  selectData,
+  selectError,
+  selectFormStatus,
+  selectProfileError,
+  selectStudentProfile,
+} from './Redux/FormSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Success from './Success';
@@ -31,44 +38,46 @@ const castIcon = `<svg
             <circle cx="12" cy="10" r="2" />
             <line x1="8" x2="8" y1="2" y2="4" />
             <line x1="16" x2="16" y1="2" y2="4" />
-          </svg>`
+          </svg>`;
 
 const Departments = [
-  "Select Department",
-  "Applied Mechanics",
-  "Bio Medical Engineering",
-  "Chemical Engineering",
-  "Civil Engineering",
-  "Computer Engineering",
-  "Electrical Engineering",
-  "Electronics & Communication Engineering",
-  "Environmental Engineering",
-  "Information Technology",
-  "Instrumentation & Control Engineering",
-  "Science and Humanities",
-  "Mechanical Engineering",
-  "Plastic Technology",
-  "Rubber Technology",
-  "Textile Technology",
-  "Automobile Engineering"
+  'Select Department',
+  'Applied Mechanics',
+  'Bio Medical Engineering',
+  'Chemical Engineering',
+  'Civil Engineering',
+  'Computer Engineering',
+  'Electrical Engineering',
+  'Electronics & Communication Engineering',
+  'Environmental Engineering',
+  'Information Technology',
+  'Instrumentation & Control Engineering',
+  'Science and Humanities',
+  'Mechanical Engineering',
+  'Plastic Technology',
+  'Rubber Technology',
+  'Textile Technology',
+  'Automobile Engineering',
 ];
 const DepartmentIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>`;
 
-const Courses = ["Select Course",
-  "Under Graduate","Post Graduate"
-];
+const Courses = ['Select Course', 'Under Graduate', 'Post Graduate'];
 const HSCMode = ['Regular or Diploma', 'Regular Student', 'Diploma Student'];
 const courseIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>`;
 
-
 const InfoForm = () => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   const dispatch = useDispatch();
   const error = useSelector(selectProfileError);
   const formData = useSelector(selectStudentProfile);
   const isPending = useSelector(selectFormStatus);
   const [pic, setPic] = useState();
-  const user = useSelector(selectLoggedInUser)
+  const user = useSelector(selectLoggedInUser);
 
   const photoDetail = (pics) => {
     const data = new FormData();
@@ -85,10 +94,10 @@ const InfoForm = () => {
         console.log(data.url.toString());
       })
       .catch((err) => {
-        alert(err.message)
+        alert(err.message);
         console.log(err);
       });
-  }
+  };
 
   useEffect(() => {
     // if (error) {
@@ -102,7 +111,11 @@ const InfoForm = () => {
     <Protected>
       <Toaster position="top-center" reverseOrder={false} />
       {formData && !error && (
-        <Success formData={formData} error={error} title={formData.data.message} />
+        <Success
+          formData={formData}
+          error={error}
+          title={formData.data.message}
+        />
       )}
       {!formData && (
         <DefaultLayout>

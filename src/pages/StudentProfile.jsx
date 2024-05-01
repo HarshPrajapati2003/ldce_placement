@@ -8,31 +8,35 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLoggedInUser } from './Authentication/Redux/AuthSlice';
 import axios from 'axios';
-import { fetchStudentDataAsync, selectProfileError, selectStudentProfile } from './Form/Redux/FormSlice';
+import {
+  fetchStudentDataAsync,
+  selectProfileError,
+  selectStudentProfile,
+} from './Form/Redux/FormSlice';
+import { generatePDF } from './Form/GeneratePDF.jsx';
+
 
 const StudentProfile = () => {
-  const user = useSelector(selectLoggedInUser)
-  const [studentData, setStudentData] = useState({})
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const user = useSelector(selectLoggedInUser);
+  const [studentData, setStudentData] = useState({});
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const error = useSelector(selectProfileError);
   const studentProfile = useSelector(selectStudentProfile);
   const fetchStudentData = async () => {
     try {
       if (user && user.data && user.data._id && !error) {
-       
         const studentID = user.data._id;
         dispatch(fetchStudentDataAsync(studentID));
       } else if (error || !studentProfile) {
         navigate('/forms/registration-form');
-      }
-      else {
+      } else {
         navigate('/auth/signin');
         console.error('User data or user ID is undefined.');
       }
     } catch (error) {
       // Handle error here
-       navigate('/forms/registration-form');
+      navigate('/forms/registration-form');
       console.error('Error fetching student data:', error);
     }
   };
@@ -41,11 +45,12 @@ const StudentProfile = () => {
     // Update studentData when studentProfile changes
     if (studentProfile && studentProfile.data) {
       setStudentData(studentProfile.data);
+      console.log(studentProfile.data);
     }
     // else {
     //    navigate('/forms/registration-form');
     // }
-  }, [studentProfile]); 
+  }, [studentProfile]);
 
   useEffect(() => {
     fetchStudentData();
@@ -128,7 +133,12 @@ const StudentProfile = () => {
                         <span className="text-white hidden sm:flex">Edit</span>
                       </button>
                     </Link>
-                    <button className="flex items-center bg-primary hover:bg-green-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100 text-white">
+                    <button
+                      className="flex items-center bg-primary hover:bg-green-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100 text-white"
+                      onClick={() => {
+                        generatePDF(studentProfile.data);
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"

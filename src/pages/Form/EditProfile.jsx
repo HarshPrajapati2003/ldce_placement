@@ -190,7 +190,6 @@ const EditProfile = () => {
                       placed,
                       currApply,
                       currLPA,
-                      isVerified,
                       isVerified:"pending",
                     }),
                   );
@@ -863,7 +862,7 @@ const EditProfile = () => {
                         ></path>
                       </svg>
                     )}
-                    Submit
+                    Edit
                   </button>
                 </div>
               </form>
