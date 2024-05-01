@@ -1,14 +1,14 @@
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import SelectGroupOne from '../../components/Forms/SelectGroup/SelectGroupOne';
 import DefaultLayout from '../../layout/DefaultLayout';
 import DatePickerOne from '../../components/Forms/DatePicker/DatePickerOne';
 import SelectGroupTwo from '../../components/Forms/SelectGroup/SelectGroupTwo';
 import { useForm } from 'react-hook-form';
-import { saveStudentDataAsync, selectData, selectError, selectFormStatus, selectProfileError, selectStudentProfile } from './Redux/FormSlice';
+import { saveStudentDataAsync, selectFormStatus, selectProfileError, selectStudentProfile } from './Redux/FormSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import Success from './Success';
+// import Success from './Success';
 import toast, { Toaster } from 'react-hot-toast';
 import Protected from '../Protected';
 import { selectLoggedInUser } from '../Authentication/Redux/AuthSlice';
@@ -61,14 +61,16 @@ const HSCMode = ['Regular or Diploma', 'Regular Student', 'Diploma Student'];
 const courseIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>`;
 
 
-const InfoForm = () => {
+const EditProfile = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const dispatch = useDispatch();
   const error = useSelector(selectProfileError);
-  const formData = useSelector(selectStudentProfile);
+  const ProfileData = useSelector(selectStudentProfile);
+  const profile = ProfileData.data;
   const isPending = useSelector(selectFormStatus);
-  const [pic, setPic] = useState();
+  const [pic, setPic] = useState(profile.photo);
   const user = useSelector(selectLoggedInUser)
+  const navigate = useNavigate()
 
   const photoDetail = (pics) => {
     const data = new FormData();
@@ -90,23 +92,22 @@ const InfoForm = () => {
       });
   }
 
-  useEffect(() => {
-    // if (error) {
-    //   toast.error(`Sorry, Somthing Went Wrong Error : ${error}`);
-    // }
-    if (formData) {
-      toast.success('Registered Successfully');
-    }
-  }, [error, formData]);
+  // useEffect(() => {
+  //   if (error) {
+  //     toast.error(`Sorry, Somthing Went Wrong Error : ${error}`);
+  //   }
+  //   if (ProfileData) {
+  //     toast.success('Registered Successfully');
+  //   }
+  // }, [error, ProfileData]);
   return (
     <Protected>
+      {!ProfileData && !profile && <Navigate to="/forms/registration-form"/>}
       <Toaster position="top-center" reverseOrder={false} />
-      {formData && !error && (
-        <Success formData={formData} error={error} title={formData.data.message} />
-      )}
-      {!formData && (
+      {/* {ProfileData && !error && <Success />} */}
+      {ProfileData && (
         <DefaultLayout>
-          <Breadcrumb pageName="Registration Form" />
+          <Breadcrumb pageName="Edit Profile" />
 
           <div className="flex flex-col gap-9">
             {/* <!-- Registration Form --> */}
@@ -190,12 +191,18 @@ const InfoForm = () => {
                       currApply,
                       currLPA,
                       isVerified,
+                      isVerified:"pending",
                     }),
                   );
 
                   if (error) {
                     toast.error(`Sorry, Somthing Went Wrong Error : ${error}`);
+                  } else {
+                    toast.success('Profile Updated Successfully');
+                    navigate('/student-profile');
                   }
+
+                  // navigate('/student-profile');
                 })}
                 method="POST"
               >
@@ -211,11 +218,14 @@ const InfoForm = () => {
                         name="photo"
                         accept=".png,.jpg,.jpeg"
                         {...register('photo', {
-                          required: 'Photo is required',
                           validate: {
-                            maxSize: (file) =>
-                              file[0]?.size <= 1048576 ||
-                              'Photo size must be less than 1 MB',
+                            maxSize: (file) => {
+                              if (!file || pic) return true; // If no file is present, validation passes
+                              return (
+                                file[0]?.size <= 1048576 ||
+                                'Photo size must be less than 1 MB'
+                              );
+                            },
                           },
                         })}
                         onChange={(e) => photoDetail(e.target.files[0])}
@@ -233,6 +243,7 @@ const InfoForm = () => {
                         First Name<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.firstName}
                         type="text"
                         {...register('firstName', {
                           required: 'First name is required',
@@ -257,6 +268,7 @@ const InfoForm = () => {
                         Middle Name<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.middleName}
                         {...register('middleName', {
                           required: 'Middle name is required',
                           pattern: {
@@ -280,6 +292,7 @@ const InfoForm = () => {
                         Last Name<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.lastName}
                         {...register('lastName', {
                           required: 'Last name is required',
                           pattern: {
@@ -305,6 +318,7 @@ const InfoForm = () => {
                         Aadhar Number<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.adharNo}
                         type="text"
                         name="adharNo"
                         placeholder="Enter your Aadhar number"
@@ -330,6 +344,7 @@ const InfoForm = () => {
                         PAN Number<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.PANNumber}
                         type="text"
                         name="PANNumber"
                         placeholder="Enter your PAN number"
@@ -356,6 +371,7 @@ const InfoForm = () => {
                         Mobile Number<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.mobileNo}
                         type="text"
                         name="mobileNo"
                         placeholder="Enter your mobile number"
@@ -384,6 +400,7 @@ const InfoForm = () => {
                         Email <span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.email}
                         type="email"
                         {...register('email', {
                           required: 'Email is required',
@@ -405,6 +422,7 @@ const InfoForm = () => {
                         title="Date Of Birth"
                         name="dob"
                         register={register}
+                        defaultValue={profile.dob}
                       />
                     </div>
                     <div className="w-full xl:w-1/2">
@@ -414,6 +432,7 @@ const InfoForm = () => {
                         name="cast"
                         register={register}
                         title={'Select Cast'}
+                        defaultValue={profile.cast}
                       />
                     </div>
                   </div>
@@ -430,6 +449,7 @@ const InfoForm = () => {
                         Father's Name<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.fatherName}
                         {...register('fatherName', {
                           required: "Father's name is required",
                           pattern: {
@@ -454,6 +474,7 @@ const InfoForm = () => {
                         Mother's Name<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.motherName}
                         {...register('motherName', {
                           required: "Mother's name is required",
                           pattern: {
@@ -478,6 +499,7 @@ const InfoForm = () => {
                         <span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.parentsMobileNo}
                         {...register('parentsMobileNo', {
                           required: "Father's mobile number is required",
                           pattern: {
@@ -508,6 +530,7 @@ const InfoForm = () => {
                   <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                     <div className="w-full">
                       <textarea
+                        defaultValue={profile.address}
                         rows={6}
                         {...register('address', {
                           required: 'Address is required', // Add validation rules here
@@ -526,6 +549,7 @@ const InfoForm = () => {
                         State Name<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.state}
                         {...register('state', {
                           required: 'State name is required',
                           pattern: {
@@ -549,6 +573,7 @@ const InfoForm = () => {
                         City Name<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.city}
                         {...register('city', {
                           required: 'City name is required',
                           pattern: {
@@ -571,6 +596,7 @@ const InfoForm = () => {
                         Pincode No.<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.pincode}
                         {...register('pincode', {
                           required: 'Pincode is required',
                           pattern: {
@@ -604,6 +630,7 @@ const InfoForm = () => {
                         name="course"
                         register={register}
                         title={'Select Course'}
+                        defaultValue={profile.course}
                       />
                     </div>
 
@@ -614,6 +641,7 @@ const InfoForm = () => {
                         name="department"
                         register={register}
                         title={'Select Department'}
+                        defaultValue={profile.department}
                       />
                     </div>
                     <div className="w-full xl:w-1/2">
@@ -621,6 +649,7 @@ const InfoForm = () => {
                         Passing Year<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.passingYear}
                         {...register('passingYear', {
                           required: 'Passing year is required',
                           pattern: {
@@ -646,6 +675,7 @@ const InfoForm = () => {
                       GTU Enrollment No. <span className="text-meta-1">*</span>
                     </label>
                     <input
+                      defaultValue={profile.enrollmentNumber}
                       {...register('enrollmentNumber', {
                         required: 'Enrollment number is required',
                         pattern: {
@@ -671,6 +701,7 @@ const InfoForm = () => {
                         10th Percentage<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.sscPercentage}
                         {...register('sscPercentage', {
                           required: '10th percentage is required',
                           pattern: {
@@ -697,6 +728,7 @@ const InfoForm = () => {
                         name="HSCMode"
                         register={register}
                         title={'Select HSC Type'}
+                        defaultValue={profile.HSCMode}
                       />
                     </div>
                     <div className="w-full xl:w-1/2">
@@ -705,6 +737,7 @@ const InfoForm = () => {
                         <span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.hscPercentage}
                         type="text"
                         {...register('hscPercentage', {
                           required: '12th percentage / Diploma CPI is required',
@@ -732,6 +765,7 @@ const InfoForm = () => {
                         <span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.spi}
                         {...register('spi', {
                           required: 'All SPI is required',
                           pattern: {
@@ -755,6 +789,7 @@ const InfoForm = () => {
                         CPI<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.cpi}
                         {...register('cpi', {
                           required: 'CPI is required',
                           pattern: {
@@ -781,6 +816,7 @@ const InfoForm = () => {
                         CGPA<span className="text-meta-1">*</span>
                       </label>
                       <input
+                        defaultValue={profile.cgpa}
                         {...register('cgpa', {
                           required: 'CGPA is required',
                           pattern: {
@@ -839,4 +875,4 @@ const InfoForm = () => {
   );
 };
 
-export default InfoForm;
+export default EditProfile;

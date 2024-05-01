@@ -27,6 +27,7 @@ import EmailVerify from './pages/Authentication/EmailVerify';
 import ResetPassword from './pages/Authentication/ResetPassword';
 import InfoForm from './pages/Form/InfoForm';
 import StudentProfile from './pages/StudentProfile';
+import EditProfile from './pages/Form/EditProfile';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -141,6 +142,15 @@ function App() {
             <>
               <PageTitle title="Profile" />
               <StudentProfile />
+            </>
+          }
+        />
+        <Route
+          path="/edit-student"
+          element={
+            <>
+              <PageTitle title="Profile Edit" />
+              <EditProfile />
             </>
           }
         />

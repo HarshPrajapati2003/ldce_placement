@@ -1,7 +1,8 @@
 import flatpickr from 'flatpickr';
 import { useEffect } from 'react';
 
-const DatePickerOne = ({ title, name, register }) => {
+const DatePickerOne = ({ title, name, register, defaultValue }) => {
+   const defaultDate = defaultValue;
   useEffect(() => {
     // Init flatpickr
     flatpickr('.form-datepicker', {
@@ -29,6 +30,7 @@ const DatePickerOne = ({ title, name, register }) => {
         <input
           {...register(name, { required: `${title} is required` })} // Register the input field with the specified name and validation rules
           name={name}
+          defaultValue={defaultValue ? defaultDate : undefined}
           className="form-datepicker w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
           placeholder="mm/dd/yyyy"
           data-class="flatpickr-right"

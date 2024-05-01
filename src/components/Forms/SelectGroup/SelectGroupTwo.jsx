@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-const SelectGroupTwo = ({ SelectOptions, icon, name, title, register }) => {
+const SelectGroupTwo = ({ SelectOptions, icon, name, title, register,defaultValue }) => {
   // const [selectedOption, setSelectedOption] = useState('');
+  const defaultOption = defaultValue;
   const [isOptionSelected, setIsOptionSelected] = useState(false);
 
   const changeTextColor = () => {
@@ -35,6 +36,7 @@ const SelectGroupTwo = ({ SelectOptions, icon, name, title, register }) => {
           required
           name={name}
           {...register(name, { required: `${title} is required` })}
+          defaultValue={defaultValue ? defaultOption : SelectOptions[1]}
           className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${
             isOptionSelected ? 'text-black dark:text-white' : ''
           }`}

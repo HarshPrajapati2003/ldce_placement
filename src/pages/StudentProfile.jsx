@@ -2,28 +2,33 @@ import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../layout/DefaultLayout';
 import CoverOne from '../images/cover/cover-01.png';
 import userSix from '../images/user/user-06.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Protected from './Protected';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectLoggedInUser } from './Authentication/Redux/AuthSlice';
 import axios from 'axios';
+import { fetchStudentDataAsync, selectProfileError, selectStudentProfile } from './Form/Redux/FormSlice';
 
 const StudentProfile = () => {
   const user = useSelector(selectLoggedInUser)
   const [studentData, setStudentData] = useState({})
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const error = useSelector(selectProfileError);
+  const studentProfile = useSelector(selectStudentProfile);
   const fetchStudentData = async () => {
     try {
-      if (user && user.data && user.data._id) {
-        const res = await axios.get(
-          `http://localhost:5000/student/student-profile/${user.data._id}`,
-        );
-        setStudentData(res.data.student);
-        // console.log(res.data.student);
-      } else {
+      if (user && user.data && user.data._id && !error) {
+       
+        const studentID = user.data._id;
+        dispatch(fetchStudentDataAsync(studentID));
+      } else if (error || !studentProfile) {
+        navigate('/forms/registration-form');
+      }
+      else {
         navigate('/auth/signin');
-         console.error('User data or user ID is undefined.');
+        console.error('User data or user ID is undefined.');
       }
     } catch (error) {
       // Handle error here
@@ -33,22 +38,28 @@ const StudentProfile = () => {
   };
 
   useEffect(() => {
+    // Update studentData when studentProfile changes
+    if (studentProfile && studentProfile.data) {
+      setStudentData(studentProfile.data);
+    }
+    // else {
+    //    navigate('/forms/registration-form');
+    // }
+  }, [studentProfile]); 
+
+  useEffect(() => {
     fetchStudentData();
   }, []);
   return (
     <>
       <Protected>
+        {!studentProfile && error && <Navigate to="/forms/registration-form" />}
         <DefaultLayout>
           <Breadcrumb pageName="Student Profile" />
 
           <div>
             {/* component */}
-            <meta charSet="UTF-8" />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1.0"
-            />
-            <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
+
             <div className="h-full bg-gray-200 p-1 md:p-5">
               <div className="bg-white rounded-lg shadow-xl pb-8">
                 <div className="w-full h-[150px]">
@@ -63,28 +74,30 @@ const StudentProfile = () => {
                     className="w-40 border-2 border-inherit rounded-full"
                   />
                   <div className="flex items-center space-x-2 mt-2">
-                    <p className="text-2xl font-bold text-center">
+                    <p className="text-2xl font-bold text-center text-slate-900">
                       {studentData.firstName} {studentData.lastName}
                     </p>
-                    <span
-                      className="bg-blue-500 rounded-full p-1 text-white"
-                      title="Verified"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="text-gray-100 h-2.5 w-2.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                    {studentData.isVerified == 'verified' && (
+                      <span
+                        className="bg-blue-500 rounded-full p-1 text-white"
+                        title="Verified"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={4}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="text-gray-100 h-2.5 w-2.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={4}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      </span>
+                    )}
                   </div>
                   <p className="text-gray-700 text-center p-1">
                     {studentData.department}, {studentData.passingYear}
@@ -95,24 +108,26 @@ const StudentProfile = () => {
                 </div>
                 <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                   <div className="flex items-center space-x-4 mt-2">
-                    <button className="flex items-center bg-primary hover:bg-green-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100 text-white">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="lucide lucide-pencil"
-                      >
-                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-                        <path d="m15 5 4 4" />
-                      </svg>
-                      <span className="text-white hidden sm:flex">Edit</span>
-                    </button>
+                    <Link to="/edit-student">
+                      <button className="flex items-center bg-primary hover:bg-green-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100 text-white">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-pencil"
+                        >
+                          <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                          <path d="m15 5 4 4" />
+                        </svg>
+                        <span className="text-white hidden sm:flex">Edit</span>
+                      </button>
+                    </Link>
                     <button className="flex items-center bg-primary hover:bg-green-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100 text-white">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
