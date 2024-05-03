@@ -28,6 +28,8 @@ import ResetPassword from './pages/Authentication/ResetPassword';
 import InfoForm from './pages/Form/InfoForm';
 import StudentProfile from './pages/StudentProfile';
 import EditProfile from './pages/Form/EditProfile';
+import VerifyStudent from './pages/VerifyStudent/VerifyStudent';
+import CheckStudent from './pages/CheckStudent';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -151,6 +153,24 @@ function App() {
             <>
               <PageTitle title="Profile Edit" />
               <EditProfile />
+            </>
+          }
+        />
+        <Route
+          path="/verify-student"
+          element={
+            <>
+              <PageTitle title="Verify Student" />
+              <VerifyStudent />
+            </>
+          }
+        />
+        <Route
+          path="/check-student/:isVerified/:id"
+          element={
+            <>
+              <PageTitle title="Check Profile" />
+              <CheckStudent />
             </>
           }
         />

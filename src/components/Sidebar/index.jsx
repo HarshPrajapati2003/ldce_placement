@@ -437,7 +437,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <NavLink
                   to="/profiles"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('profiles') && 'bg-graydark dark:bg-meta-4'
+                    pathname.includes('profiles') &&
+                    'bg-graydark dark:bg-meta-4'
                   }`}
                 >
                   <svg
@@ -492,6 +493,35 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 </NavLink>
               </li>
               {/* <!-- Menu Item Student Profile --> */}
+
+              {/* <!-- Menu Item Verify Student --> */}
+              <li>
+                <NavLink
+                  to="/verify-student"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('verify-student') &&
+                    'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-badge-check"
+                  >
+                    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                  Verify Student
+                </NavLink>
+              </li>
+              {/* <!-- Menu Item Verify Student --> */}
 
               {/* <!-- Menu Item Forms --> */}
               <SidebarLinkGroup
