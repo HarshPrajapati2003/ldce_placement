@@ -30,7 +30,7 @@ export const generatePDF = (formData) => {
     'Course Name': formData.course,
     'Department Name': formData.department,
     'Passing Year': formData.passingYear,
-    'EnrollmentNumber Number': formData.enrollmentNumber,
+    'Enrollment Number': formData.enrollmentNumber,
     'HSC Grade': formData.hscPercentage,
     'All Sem SPI': formData.spi.join(', '),
     CPI: formData.cpi,

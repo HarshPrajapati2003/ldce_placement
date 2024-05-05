@@ -30,6 +30,9 @@ import StudentProfile from './pages/StudentProfile';
 import EditProfile from './pages/Form/EditProfile';
 import VerifyStudent from './pages/VerifyStudent/VerifyStudent';
 import CheckStudent from './pages/CheckStudent';
+import PostJob from './pages/Form/PostJob';
+import RecentCompanies from './pages/RecentCompanies/RecentCompanies';
+import CheckCompany from './pages/CheckCompany';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -81,6 +84,15 @@ function App() {
             <>
               <PageTitle title="Contact Us" />
               <Contact />
+            </>
+          }
+        />
+        <Route
+          path="/recent-companies"
+          element={
+            <>
+              <PageTitle title="Recent Companies" />
+              <RecentCompanies />
             </>
           }
         />
@@ -175,6 +187,15 @@ function App() {
           }
         />
         <Route
+          path="/check-company/:id"
+          element={
+            <>
+              <PageTitle title="Compnay Profile" />
+              <CheckCompany />
+            </>
+          }
+        />
+        <Route
           path="/forms/form-elements"
           element={
             <>
@@ -198,6 +219,15 @@ function App() {
             <>
               <PageTitle title="Registration Form" />
               <InfoForm />
+            </>
+          }
+        />
+        <Route
+          path="/forms/job-post"
+          element={
+            <>
+              <PageTitle title="Job Form" />
+              <PostJob />
             </>
           }
         />

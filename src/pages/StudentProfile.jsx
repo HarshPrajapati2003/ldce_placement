@@ -76,7 +76,7 @@ const StudentProfile = () => {
                 <div className="flex flex-col items-center -mt-20">
                   <img
                     src={studentData.photo}
-                    className="w-40 border-2 border-inherit rounded-full"
+                    className="w-40 h-40 border-2 border-inherit rounded-full object-contain bg-white"
                   />
                   <div className="flex items-center space-x-2 mt-2">
                     <p className="text-2xl font-bold text-center text-slate-900">
