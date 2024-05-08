@@ -29,7 +29,7 @@ const PostJob = () => {
         prevSelected.filter((item) => item !== id),
       );
     }
-    console.log('selectedDepartments : ', selectedDepartments);
+    // console.log('selectedDepartments : ', selectedDepartments);
   };
   const {
     register,
