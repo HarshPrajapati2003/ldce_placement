@@ -345,6 +345,40 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               </li>
               {/* <!-- Menu Item Recent Companies --> */}
 
+              {/* <!-- Menu Item All Companies --> */}
+              <li>
+                <NavLink
+                  to="/all-companies"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('all-companies') &&
+                    'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-building-2"
+                  >
+                    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+                    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+                    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+                    <path d="M10 6h4" />
+                    <path d="M10 10h4" />
+                    <path d="M10 14h4" />
+                    <path d="M10 18h4" />
+                  </svg>
+                  Companies
+                </NavLink>
+              </li>
+              {/* <!-- Menu Item All Companies --> */}
+
               {/* <!-- Menu Item Recruitment Process--> */}
               <li>
                 <NavLink

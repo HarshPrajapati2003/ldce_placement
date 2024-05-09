@@ -33,6 +33,8 @@ import CheckStudent from './pages/CheckStudent';
 import PostJob from './pages/Form/PostJob';
 import RecentCompanies from './pages/RecentCompanies/RecentCompanies';
 import CheckCompany from './pages/CheckCompany';
+import Companies from './pages/Companies/Companies';
+import CompanyInfo from './pages/Companies/CompanyInfo';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -93,6 +95,15 @@ function App() {
             <>
               <PageTitle title="Recent Companies" />
               <RecentCompanies />
+            </>
+          }
+        />
+        <Route
+          path="/all-companies"
+          element={
+            <>
+              <PageTitle title="Recent Companies" />
+              <Companies />
             </>
           }
         />
@@ -192,6 +203,15 @@ function App() {
             <>
               <PageTitle title="Compnay Profile" />
               <CheckCompany />
+            </>
+          }
+        />
+        <Route
+          path="/company-info/:id"
+          element={
+            <>
+              <PageTitle title="Compnay Profile" />
+              <CompanyInfo />
             </>
           }
         />

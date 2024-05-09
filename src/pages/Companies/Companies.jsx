@@ -5,98 +5,72 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import Protected from '../Protected';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectLoggedInUser } from '../Authentication/Redux/AuthSlice';
-import { fetchStudentDataAsync, selectProfileError, selectStudentProfile } from '../Form/Redux/FormSlice';
 
-const RecentCompanies = () => {
-    const [search,setSearch] = useState("")
-    const [companies, setCompanies] = useState();
-    const [isLoading, setIsLoading] = useState(false);
-    const [loading, setLoading] = useState(false)
-  const [render, setRender] = useState(false)
-  const user = useSelector(selectLoggedInUser);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const error = useSelector(selectProfileError);
-  const studentProfile = useSelector(selectStudentProfile);
-  const fetchStudentData = async () => {
+const Companies = () => {
+  const [search, setSearch] = useState('');
+  const [companies, setCompanies] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [render, setRender] = useState(false);
+  const handleSearch = async (e) => {
+    setLoading(true);
+    setSearch(e.target.value);
+    if (e.target.value == '') {
+      setRender(true);
+    }
     try {
-      if (user && user.data && user.data._id && !error) {
-        const studentID = user.data._id;
-        dispatch(fetchStudentDataAsync(studentID));
-      } else if (error || !studentProfile) {
-        navigate('/forms/registration-form');
-      } else {
-        navigate('/auth/signin');
-        console.error('User data or user ID is undefined.');
+      const res = await axios.post('http://localhost:5000/company/search', {
+        companyNameRegex: search,
+      });
+      if (res) {
+        setCompanies(res.data.companies);
+        console.log(res.data.companies);
       }
     } catch (error) {
-      // Handle error here
-      navigate('/forms/registration-form');
-      console.error('Error fetching student data:', error);
+      toast.error(`Sorry, ${error.response.data.message}`);
+      console.log(error.response.data.message);
+    }
+    setLoading(false);
+  };
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(
+        'http://localhost:5000/company/fetch-companies',
+      );
+      if (res.status == 200) {
+        setCompanies(res.data.companies);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(`sorry, ${error.response.data.message}`);
     }
   };
-    const handleSearch = async (e) => {
-         setLoading(true);
-        setSearch(e.target.value);
-        if (e.target.value == '') {
-            setRender(true);
-        }
-         try {
-           const res = await axios.post('http://localhost:5000/company/search',{companyNameRegex:search});
-           if (res) {
-             setCompanies(res.data.companies);
-             console.log(res.data.companies);
-           }
-         } catch (error) {
-             toast.error(`Sorry, ${error.response.data.message}`);
-           console.log(error.response.data.message);
-         }
-         setLoading(false);
-    }
-    const fetchData = async () => {
-        try {
-            const res = await axios.get('http://localhost:5000/company/fetch-companies');
-            if (res.status == 200) {
-                setCompanies(res.data.companies)
-            } 
-        } catch (error) {
-            console.log(error)
-            toast.error(`sorry, ${error.response.data.message}`);
-        }
-    }
-    useEffect(() => {
-      setIsLoading(true);
-      fetchData()
-        .then(() => {
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          setIsLoading(false);
-          // Handle error if needed
-          console.error('Error fetching data:', error);
-        });
-    }, [render]);
-  
   useEffect(() => {
-    fetchStudentData();
-  }, []);
+    setIsLoading(true);
+    fetchData()
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        // Handle error if needed
+        console.error('Error fetching data:', error);
+      });
+  }, [render]);
 
-    
   return (
-    <Protected>
+    <>
       <DefaultLayout>
         <Toaster position="top-center" reverseOrder={false} />
-        <Breadcrumb pageName="Recent Companies" />
-        {/* <!-- ====== RecentCompanies Section Start ====== --> */}
+        <Breadcrumb pageName="All Companies" />
+        {/* <!-- ====== Companies Section Start ====== --> */}
 
-        {companies && companies.length > 0 && studentProfile?.data && (
+        {companies && companies.length > 0 && (
           <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <section className="p-6 dark:bg-gray-100 dark:text-gray-800">
               <div className="container mx-auto">
                 <h2 className="text-3xl font-bold text-center dark:text-gray-900 text-primary">
-                  Recent companies have arrived for placement.
+                  Details Of All Companies
                 </h2>
                 <div className="max-w-md mx-auto my-1 -mb-3 sm:my-3 px-1 w-full pt-6">
                   <label
@@ -164,94 +138,10 @@ const RecentCompanies = () => {
                 <div className="grid gap-0 sm:gap-6 mb-16 mt-8 sm:grid-cols-2 lg:grid-cols-3">
                   {companies.map((company, idx) => (
                     <Link
-                      to={`/check-company/${company._id}`}
+                      to={`/company-info/${company._id}`}
                       className="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm scale-90 hover:scale-95 transition-transform duration-300 hover:shadow-lg hover:border-primary cursor-pointer"
                       key={idx}
                     >
-                      {/* Badges start */}
-                      <div
-                        className="flex justify-center mt-3 font-bold"
-                        key={idx}
-                      >
-                        {/* Success */}
-                        {company.applyStudents.includes(
-                          studentProfile.data._id,
-                        ) && (
-                          <span className="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="-ms-1 me-1.5 h-4 w-4"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-
-                            <p className="whitespace-nowrap text-sm">Applied</p>
-                          </span>
-                        )}
-
-                        {/* Warning */}
-                        {company.eligibleStudents.includes(
-                          studentProfile.data._id,
-                        ) &&
-                          !company.applyStudents.includes(
-                            studentProfile.data._id,
-                          ) && (
-                            <span className="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="-ms-1 me-1.5 h-4 w-4"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M8.25 9.75h4.875a2.625 2.625 0 010 5.25H12M8.25 9.75L10.5 7.5M8.25 9.75L10.5 12m9-7.243V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185z"
-                                />
-                              </svg>
-                              <p className="whitespace-nowrap text-sm">
-                                Apply Now
-                              </p>
-                            </span>
-                          )}
-
-                        {/* Error */}
-                        {!company.eligibleStudents.includes(
-                          studentProfile.data._id,
-                        ) && (
-                          <span className="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="-ms-1 me-1.5 h-4 w-4"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                              />
-                            </svg>
-
-                            <p className="whitespace-nowrap text-sm">
-                              You're not eligible
-                            </p>
-                          </span>
-                        )}
-                      </div>
-                      {/* Badges end */}
                       <img
                         alt=""
                         src={company.logo}
@@ -358,10 +248,10 @@ const RecentCompanies = () => {
           </div>
         )}
 
-        {/* <!-- ====== RecentCompanies Section End ====== --> */}
+        {/* <!-- ====== Companies Section End ====== --> */}
       </DefaultLayout>
-    </Protected>
+    </>
   );
 };
 
-export default RecentCompanies;
+export default Companies;

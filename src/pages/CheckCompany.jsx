@@ -24,7 +24,8 @@ const CheckCompany = () => {
   const dispatch = useDispatch();
   const error = useSelector(selectProfileError);
   const studentProfile = useSelector(selectStudentProfile);
-  const [idPresent,setIdPresent]=useState(false)
+  const [idPresent, setIdPresent] = useState(false)
+  const [applysuccess, setApplysuccess] = useState(false);
   const fetchStudentData = async () => {
     try {
       if (user && user.data && user.data._id && !error) {
@@ -84,7 +85,7 @@ const CheckCompany = () => {
         // Handle error if needed
         console.error('Error fetching data:', error);
       });
-  }, []);
+  }, [applysuccess]);
 
   // Function to check if id is present in eligibleCompanies array
   const isIdPresent = () => {
@@ -104,6 +105,8 @@ const CheckCompany = () => {
          toast.success(`${res.data.message}`, {
            duration: 5000,
          });
+         setApplysuccess(true);
+
        }
      } catch (error) {
       console.log(error);
@@ -379,6 +382,284 @@ const CheckCompany = () => {
                   <p className="mt-2 text-gray-700 text-sm sm:text-md">
                     {companyData.address}
                   </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col w-full mt-4">
+                <div className="flex-1 bg-white rounded-lg shadow-xl p-3 sm:p-8">
+                  <div className="grid divide-y divide-neutral-200 mx-auto">
+                    <div className="py-5 overflow-x-auto">
+                      <details className="group">
+                        <summary className="flex justify-between items-center font-medium cursor-pointer list-none">
+                          <h4 className="text-xl text-primary font-bold">
+                            List Of Eligible Students
+                          </h4>
+                          <span className="transition group-open:rotate-180 text-black">
+                            <svg
+                              fill="none"
+                              height={24}
+                              shapeRendering="geometricPrecision"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                              viewBox="0 0 24 24"
+                              width={24}
+                            >
+                              <path d="M6 9l6 6 6-6" />
+                            </svg>
+                          </span>
+                        </summary>
+                        {companyData.eligibleStudents.length > 0 ? (
+                          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-4 ">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 bg-primary text-white">
+                              <tr>
+                                <th scope="col" className="ps-3 py-3">
+                                  No.
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                  Student Name
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                  Department
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                  Status
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {companyData.eligibleStudents.map(
+                                (student, idx) => (
+                                  <tr
+                                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                    key={idx}
+                                  >
+                                    <td className="ps-3 py-4"> {idx + 1}</td>
+                                    <th
+                                      scope="row"
+                                      className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                      <img
+                                        className="w-10 h-10 rounded-full border-2 border-inherit"
+                                        src={student.photo}
+                                        alt="Jese image"
+                                      />
+                                      <div className="ps-3">
+                                        <div className="text-base font-semibold">
+                                          {student.firstName} {student.lastName}
+                                        </div>
+                                        <div className="font-normal text-gray-500">
+                                          Enrollment No. :{' '}
+                                          {student.enrollmentNumber}
+                                        </div>
+                                      </div>
+                                    </th>
+                                    <td className="px-6 py-4">
+                                      {' '}
+                                      {student.department}
+                                    </td>
+                                    <td
+                                      className={`px-6 py-4 font-bold ${companyData.applyStudents.some((studentObj) => studentObj._id === student._id) ? 'text-green-500' : 'text-primary'}`}
+                                    >
+                                      {companyData.applyStudents.some(
+                                        (studentObj) =>
+                                          studentObj._id === student._id,
+                                      )
+                                        ? 'Applied'
+                                        : 'Not Apply'}
+                                    </td>
+                                  </tr>
+                                ),
+                              )}
+                            </tbody>
+                          </table>
+                        ) : (
+                          <h1 className="mt-3 text-center font-bold text-red-600 mx-3">
+                            No eligible students found for this job
+                          </h1>
+                        )}
+                      </details>
+                    </div>
+                    {companyData.applyStudents.length > 0 && (
+                      <div className="py-5 overflow-x-auto">
+                        <details className="group">
+                          <summary className="flex justify-between items-center font-medium cursor-pointer list-none">
+                            <h4 className="text-xl text-primary font-bold">
+                              List Of Applied Students
+                            </h4>
+                            <span className="transition group-open:rotate-180 text-black">
+                              <svg
+                                fill="none"
+                                height={24}
+                                shapeRendering="geometricPrecision"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                                viewBox="0 0 24 24"
+                                width={24}
+                              >
+                                <path d="M6 9l6 6 6-6" />
+                              </svg>
+                            </span>
+                          </summary>
+
+                          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-4 ">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 bg-primary text-white">
+                              <tr>
+                                <th scope="col" className="ps-3 py-3">
+                                  No.
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                  Student Name
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                  Department
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                  Status
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {companyData.applyStudents.map((student, idx) => (
+                                <tr
+                                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                  key={idx}
+                                >
+                                  <td className="ps-3 py-4"> {idx + 1}</td>
+                                  <th
+                                    scope="row"
+                                    className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                                  >
+                                    <img
+                                      className="w-10 h-10 rounded-full border-2 border-inherit"
+                                      src={student.photo}
+                                      alt="Jese image"
+                                    />
+                                    <div className="ps-3">
+                                      <div className="text-base font-semibold">
+                                        {student.firstName} {student.lastName}
+                                      </div>
+                                      <div className="font-normal text-gray-500">
+                                        Enrollment No. :{' '}
+                                        {student.enrollmentNumber}
+                                      </div>
+                                    </div>
+                                  </th>
+                                  <td className="px-6 py-4">
+                                    <div className="font-normal text-gray-500">
+                                      {' '}
+                                      {student.department}
+                                    </div>
+                                  </td>
+                                  <td
+                                    className={`px-6 py-4 font-bold ${companyData.applyStudents.some((studentObj) => studentObj._id === student._id) ? 'text-green-500' : 'text-primary'}`}
+                                  >
+                                    {companyData.applyStudents.some(
+                                      (studentObj) =>
+                                        studentObj._id === student._id,
+                                    )
+                                      ? 'Applied'
+                                      : 'Not Apply'}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </details>
+                      </div>
+                    )}
+                    {companyData.selectedStudents.length > 0 && (
+                      <div className="py-5 overflow-x-auto">
+                        <details className="group">
+                          <summary className="flex justify-between items-center font-medium cursor-pointer list-none">
+                            <h4 className="text-xl text-primary font-bold">
+                              List Of Selected Students
+                            </h4>
+                            <span className="transition group-open:rotate-180 text-black">
+                              <svg
+                                fill="none"
+                                height={24}
+                                shapeRendering="geometricPrecision"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                                viewBox="0 0 24 24"
+                                width={24}
+                              >
+                                <path d="M6 9l6 6 6-6" />
+                              </svg>
+                            </span>
+                          </summary>
+                          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-4 ">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 bg-primary text-white">
+                              <tr>
+                                <th scope="col" className="ps-3 py-3">
+                                  No.
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                  Student Name
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                  Department
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                  Selection Status
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {companyData.selectedStudents.map(
+                                (student, idx) => (
+                                  <tr
+                                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                    key={idx}
+                                  >
+                                    <td className="ps-3 py-4"> {idx + 1}</td>
+                                    <th
+                                      scope="row"
+                                      className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                      <img
+                                        className="w-10 h-10 rounded-full border-2 border-inherit"
+                                        src={student.photo}
+                                        alt="Jese image"
+                                      />
+                                      <div className="ps-3">
+                                        <div className="text-base font-semibold">
+                                          {student.firstName} {student.lastName}
+                                        </div>
+                                        <div className="font-normal text-gray-500">
+                                          Enrollment No. :{' '}
+                                          {student.enrollmentNumber}
+                                        </div>
+                                      </div>
+                                    </th>
+                                    <td className="px-6 py-4">
+                                      <div className="font-normal text-gray-500">
+                                        {' '}
+                                        {student.department}
+                                      </div>
+                                    </td> 
+                                    <td className="px-6 py-4">
+                                      <div className="max-w-sm mx-auto">
+                                          <h1 className="text-green-500 font-bold">
+                                            Selected
+                                          </h1>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ),
+                              )}
+                            </tbody>
+                          </table>
+                        </details>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
