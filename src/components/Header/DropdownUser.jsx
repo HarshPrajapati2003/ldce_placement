@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import UserOne from '../../images/user/user-01.png';
+import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -35,8 +37,23 @@ const DropdownUser = () => {
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
+  const handleLogout = async () => {
+    try {
+     const res = await axios.post('http://localhost:5000/api/auth/logout', {}, { withCredentials: true });
+    if (res) {
+      toast.success(`${res.data.message}`, {
+        duration: 5000,
+      });
+    }
+    } catch (error) {
+      console.log(error)
+      toast.error(`sorry, ${error.response.data.message}`);
+    }
+  }
+
   return (
     <div className="relative">
+      <Toaster position="top-center" reverseOrder={false} />
       <Link
         ref={trigger}
         onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -153,7 +170,10 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button
+          className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+          onClick={handleLogout}
+        >
           <svg
             className="fill-current"
             width="22"
