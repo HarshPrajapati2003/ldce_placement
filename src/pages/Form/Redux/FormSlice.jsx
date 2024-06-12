@@ -43,6 +43,9 @@ export const formSlice = createSlice({
     increment: (state) => {
       state.value += 1;
     },
+    logoutHandle: (state) => {
+      state.studentProfile = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -79,5 +82,6 @@ export const selectProfileError = (state) => state.form.profileError;
 export const selectData = (state) => state.form.formData;
 export const selectStudentProfile = (state) => state.form.studentProfile;
 export const selectFormStatus = (state) => state.form.status;
+export const { logoutHandle } = formSlice.actions;
 
 export default formSlice.reducer;

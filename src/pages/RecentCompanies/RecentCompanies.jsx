@@ -3,7 +3,7 @@ import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../../layout/DefaultLayout';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Protected from '../Protected';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLoggedInUser } from '../Authentication/Redux/AuthSlice';
@@ -25,9 +25,11 @@ const RecentCompanies = () => {
       if (user && user.data && user.data._id && !error) {
         const studentID = user.data._id;
         dispatch(fetchStudentDataAsync(studentID));
-      } else if (error || !studentProfile) {
-        navigate('/forms/registration-form');
-      } else {
+      }
+      else if (error || !studentProfile) {
+        // navigate('/forms/registration-form');
+      }
+      else {
         navigate('/auth/signin');
         console.error('User data or user ID is undefined.');
       }
@@ -90,6 +92,7 @@ const RecentCompanies = () => {
         <Toaster position="top-center" reverseOrder={false} />
         <Breadcrumb pageName="Recent Companies" />
         {/* <!-- ====== RecentCompanies Section Start ====== --> */}
+        {!studentProfile && error && <Navigate to="/forms/registration-form" />}
 
         {companies && companies.length > 0 && studentProfile?.data && (
           <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">

@@ -4,8 +4,12 @@ import { Link } from 'react-router-dom';
 import UserOne from '../../images/user/user-01.png';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import { logout } from '../../pages/Authentication/Redux/AuthSlice';
+import { useDispatch } from 'react-redux';
+import { logoutHandle } from '../../pages/Form/Redux/FormSlice';
 
 const DropdownUser = () => {
+   const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef(null);
@@ -39,7 +43,9 @@ const DropdownUser = () => {
 
   const handleLogout = async () => {
     try {
-     const res = await axios.post('http://localhost:5000/api/auth/logout', {}, { withCredentials: true });
+      const res = await axios.post('http://localhost:5000/api/auth/logout', {}, { withCredentials: true });
+      dispatch(logout());
+      dispatch(logoutHandle())
     if (res) {
       toast.success(`${res.data.message}`, {
         duration: 5000,

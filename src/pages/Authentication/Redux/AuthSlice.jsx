@@ -71,6 +71,10 @@ export const authSlice = createSlice({
     increment: (state) => {
       state.value += 1;
     },
+
+    logout: (state) => {
+      state.loggedInUser = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -136,4 +140,5 @@ export const selectSigninError = (state) => state.user.signinError;
 export const selectForgotError = (state) => state.user.forgotPassErrror;
 export const selectChangeError = (state) => state.user.changePassError;
 export const selectPendingstatus = (state) => state.user.status;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

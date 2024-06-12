@@ -28,9 +28,11 @@ const StudentProfile = () => {
       if (user && user.data && user.data._id && !error) {
         const studentID = user.data._id;
         dispatch(fetchStudentDataAsync(studentID));
-      } else if (error || !studentProfile) {
-        navigate('/forms/registration-form');
-      } else {
+      }
+      else if (error || !studentProfile) {
+        // navigate('/forms/registration-form');
+      }
+      else {
         navigate('/auth/signin');
         console.error('User data or user ID is undefined.');
       }
