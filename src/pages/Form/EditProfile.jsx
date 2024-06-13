@@ -66,11 +66,19 @@ const EditProfile = () => {
   const dispatch = useDispatch();
   const error = useSelector(selectProfileError);
   const ProfileData = useSelector(selectStudentProfile);
-  const profile = ProfileData.data;
+  const profile = ProfileData?.data;
   const isPending = useSelector(selectFormStatus);
-  const [pic, setPic] = useState(profile.photo);
+  const [pic, setPic] = useState(profile?.photo);
   const user = useSelector(selectLoggedInUser)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user) {
+      if (user?.data?.role !== 'student') {
+        navigate('/');
+      }
+    }
+  }, []);
 
   const photoDetail = (pics) => {
     const data = new FormData();
@@ -101,7 +109,7 @@ const EditProfile = () => {
   //   }
   // }, [error, ProfileData]);
   return (
-    <Protected>
+    <>
       {!ProfileData && !profile && <Navigate to="/forms/registration-form"/>}
       <Toaster position="top-center" reverseOrder={false} />
       {/* {ProfileData && !error && <Success />} */}
@@ -870,7 +878,7 @@ const EditProfile = () => {
           </div>
         </DefaultLayout>
       )}
-    </Protected>
+    </>
   );
 };
 

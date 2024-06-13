@@ -35,6 +35,7 @@ import RecentCompanies from './pages/RecentCompanies/RecentCompanies';
 import CheckCompany from './pages/CheckCompany';
 import Companies from './pages/Companies/Companies';
 import CompanyInfo from './pages/Companies/CompanyInfo';
+import Protected from './pages/Protected';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -54,7 +55,8 @@ function App() {
     <>
       <Routes>
         <Route
-          path="/overview"
+          // path="/overview"
+          index
           element={
             <>
               <PageTitle title="Overview" />
@@ -92,19 +94,19 @@ function App() {
         <Route
           path="/recent-companies"
           element={
-            <>
+            <Protected>
               <PageTitle title="Recent Companies" />
               <RecentCompanies />
-            </>
+            </Protected>
           }
         />
         <Route
           path="/all-companies"
           element={
-            <>
+            <Protected>
               <PageTitle title="Recent Companies" />
               <Companies />
-            </>
+            </Protected>
           }
         />
         <Route
@@ -134,7 +136,7 @@ function App() {
             </>
           }
         />
-        <Route
+        {/* <Route
           index
           element={
             <>
@@ -142,16 +144,7 @@ function App() {
               <ECommerce />
             </>
           }
-        />
-        <Route
-          path="/calendar"
-          element={
-            <>
-              <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Calendar />
-            </>
-          }
-        />
+        /> */}
         <Route
           path="/profiles"
           element={
@@ -164,55 +157,58 @@ function App() {
         <Route
           path="/student-profile"
           element={
-            <>
+            <Protected>
               <PageTitle title="Profile" />
               <StudentProfile />
-            </>
+            </Protected>
           }
         />
         <Route
           path="/edit-student"
           element={
-            <>
+            <Protected>
               <PageTitle title="Profile Edit" />
               <EditProfile />
-            </>
+            </Protected>
           }
         />
         <Route
           path="/verify-student"
           element={
-            <>
+            <Protected>
               <PageTitle title="Verify Student" />
               <VerifyStudent />
-            </>
+            </Protected>
           }
         />
         <Route
           path="/check-student/:isVerified/:id"
           element={
-            <>
+            <Protected>
               <PageTitle title="Check Profile" />
               <CheckStudent />
-            </>
+            </Protected>
           }
         />
+
         <Route
           path="/check-company/:id"
           element={
             <>
-              <PageTitle title="Compnay Profile" />
-              <CheckCompany />
+              <Protected>
+                <PageTitle title="Compnay Profile" />
+                <CheckCompany />
+              </Protected>
             </>
           }
         />
         <Route
           path="/company-info/:id"
           element={
-            <>
+            <Protected>
               <PageTitle title="Compnay Profile" />
               <CompanyInfo />
-            </>
+            </Protected>
           }
         />
         <Route
@@ -236,19 +232,19 @@ function App() {
         <Route
           path="/forms/registration-form"
           element={
-            <>
+            <Protected>
               <PageTitle title="Registration Form" />
               <InfoForm />
-            </>
+            </Protected>
           }
         />
         <Route
           path="/forms/job-post"
           element={
-            <>
+            <Protected>
               <PageTitle title="Job Form" />
               <PostJob />
-            </>
+            </Protected>
           }
         />
         <Route

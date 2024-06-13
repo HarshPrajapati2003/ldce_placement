@@ -23,6 +23,13 @@ const StudentProfile = () => {
   const dispatch = useDispatch();
   const error = useSelector(selectProfileError);
   const studentProfile = useSelector(selectStudentProfile);
+  useEffect(() => {
+    if (user) {
+      if (user?.data?.role !== 'student') {
+        navigate('/');
+      }
+    }
+  }, []);
   const fetchStudentData = async () => {
     try {
       if (user && user.data && user.data._id && !error) {
@@ -59,7 +66,7 @@ const StudentProfile = () => {
   }, []);
   return (
     <>
-      <Protected>
+      
         {!studentProfile && error && <Navigate to="/forms/registration-form" />}
         <DefaultLayout>
           <Breadcrumb pageName="Student Profile" />
@@ -550,7 +557,6 @@ const StudentProfile = () => {
             </div>
           </div>
         </DefaultLayout>
-      </Protected>
     </>
   );
 };

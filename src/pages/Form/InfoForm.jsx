@@ -1,4 +1,4 @@
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import SelectGroupOne from '../../components/Forms/SelectGroup/SelectGroupOne';
 import DefaultLayout from '../../layout/DefaultLayout';
@@ -78,6 +78,14 @@ const InfoForm = () => {
   const isPending = useSelector(selectFormStatus);
   const [pic, setPic] = useState();
   const user = useSelector(selectLoggedInUser);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      if (user?.data?.role !== 'student') {
+        navigate('/');
+      }
+    }
+  }, []);
 
   const photoDetail = (pics) => {
     const data = new FormData();
@@ -108,7 +116,7 @@ const InfoForm = () => {
     }
   }, [error, formData]);
   return (
-    <Protected>
+    <>
       <Toaster position="top-center" reverseOrder={false} />
       {formData && !error && (
         <Success
@@ -848,7 +856,7 @@ const InfoForm = () => {
           </div>
         </DefaultLayout>
       )}
-    </Protected>
+    </>
   );
 };
 

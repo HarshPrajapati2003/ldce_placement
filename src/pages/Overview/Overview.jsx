@@ -2,6 +2,7 @@
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../../layout/DefaultLayout';
 import HeroLogo from '../../images/Overview/overview.svg';
+import { Link } from 'react-router-dom';
 
 const functions_of_cell = [
   'Collects and maintains the students database for the purpose of T&P activities',
@@ -77,12 +78,12 @@ const Overview = () => {
                   in their chosen careers.
                 </p>
 
-                <a
-                  href="#"
+                <Link
+                  to="/recruitment-process"
                   className="mt-8 inline-block rounded bg-indigo-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-yellow-400"
                 >
-                  Get Started Today
-                </a>
+                  Get Started
+                </Link>
               </div>
             </div>
           </div>

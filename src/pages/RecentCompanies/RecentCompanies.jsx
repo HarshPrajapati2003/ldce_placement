@@ -20,6 +20,13 @@ const RecentCompanies = () => {
   const dispatch = useDispatch();
   const error = useSelector(selectProfileError);
   const studentProfile = useSelector(selectStudentProfile);
+  useEffect(() => {
+    if (user) {
+      if (user?.data?.role !== 'student') {
+        navigate("/")
+      }
+    }
+  },[])
   const fetchStudentData = async () => {
     try {
       if (user && user.data && user.data._id && !error) {
@@ -87,7 +94,7 @@ const RecentCompanies = () => {
 
     
   return (
-    <Protected>
+    <>
       <DefaultLayout>
         <Toaster position="top-center" reverseOrder={false} />
         <Breadcrumb pageName="Recent Companies" />
@@ -363,7 +370,7 @@ const RecentCompanies = () => {
 
         {/* <!-- ====== RecentCompanies Section End ====== --> */}
       </DefaultLayout>
-    </Protected>
+    </>
   );
 };
 

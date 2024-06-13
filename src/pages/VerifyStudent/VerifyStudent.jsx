@@ -3,7 +3,9 @@ import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../../layout/DefaultLayout';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectLoggedInUser } from '../Authentication/Redux/AuthSlice';
 
 const VerifyStudent = () => {
   const [search,setSearch]=useState("")
@@ -11,7 +13,16 @@ const VerifyStudent = () => {
   const [render,isRender]=useState(false)
   const [students, setStudents] = useState([])
   const [loading, setLoading] = useState(false)
-  const [refresh,setRefresh]=useState(false)
+  const [refresh, setRefresh] = useState(false)
+  const user = useSelector(selectLoggedInUser);
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (user) {
+      if (user?.data?.role !== 'TPO') {
+        navigate('/');
+      }
+    }
+  }, []);
     const fetchStudents = async () => {
          try {
            const res = await axios.get('http://localhost:5000/student/fetch-pending');

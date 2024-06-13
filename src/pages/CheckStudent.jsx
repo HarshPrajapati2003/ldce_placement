@@ -19,10 +19,19 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const CheckStudent = () => {
   const [loading,setLoading]=useState(false)
-  const {id,isVerified}=useParams()
+  const { id, isVerified } = useParams()
+  const user = useSelector(selectLoggedInUser);
   const [studentData, setStudentData] = useState();
   const navigate = useNavigate();
   const [render, isRender] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      if (user?.data?.role !== 'TPO') {
+        navigate('/');
+      }
+    }
+  }, []);
    const handleStatusChange = async (selectedStatus, id) => {
      // Update the state with the selected status
      setStudentData((prevStudent) => ({

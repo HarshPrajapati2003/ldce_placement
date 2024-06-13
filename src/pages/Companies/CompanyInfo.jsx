@@ -5,13 +5,24 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+import { selectLoggedInUser } from '../Authentication/Redux/AuthSlice.jsx';
 
 
 const CheckCompany = () => {
 const [loading, setLoading] = useState(false);
 const { id } = useParams();
 const [companyData, setComapnyData] = useState();
-const [statusChange, setStatusChange] = useState(false);
+  const [statusChange, setStatusChange] = useState(false);
+  const user = useSelector(selectLoggedInUser);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      if (user?.data?.role !== 'TPO') {
+        navigate('/');
+      }
+    }
+  }, []);
     
 const fetchCompanyData = async () => {
     try {

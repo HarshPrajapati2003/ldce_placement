@@ -26,6 +26,13 @@ const CheckCompany = () => {
   const studentProfile = useSelector(selectStudentProfile);
   const [idPresent, setIdPresent] = useState(false)
   const [applysuccess, setApplysuccess] = useState(false);
+  useEffect(() => {
+    if (user) {
+      if (user?.data?.role !== 'student') {
+        navigate('/');
+      }
+    }
+  }, []);
   const fetchStudentData = async () => {
     try {
       if (user && user.data && user.data._id && !error) {
@@ -118,7 +125,7 @@ const CheckCompany = () => {
     };
 
   return (
-    <Protected>
+    <>
       <DefaultLayout>
         <Breadcrumb pageName="Company Profile" />
         <Toaster position="top-center" reverseOrder={false} />
@@ -759,7 +766,7 @@ const CheckCompany = () => {
           </>
         ) : null}
       </DefaultLayout>
-    </Protected>
+    </>
   );
 };
 

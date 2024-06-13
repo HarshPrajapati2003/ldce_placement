@@ -5,13 +5,24 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import Protected from '../Protected';
+import { useSelector } from 'react-redux';
+import { selectLoggedInUser } from '../Authentication/Redux/AuthSlice';
 
 const Companies = () => {
   const [search, setSearch] = useState('');
+  const user = useSelector(selectLoggedInUser);
   const [companies, setCompanies] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [render, setRender] = useState(false);
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (user) {
+      if (user?.data?.role !== 'TPO') {
+        navigate('/');
+      }
+    }
+  }, []);
   const handleSearch = async (e) => {
     setLoading(true);
     setSearch(e.target.value);

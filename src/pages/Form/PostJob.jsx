@@ -1,4 +1,4 @@
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import SelectGroupOne from '../../components/Forms/SelectGroup/SelectGroupOne';
 import DefaultLayout from '../../layout/DefaultLayout';
@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import Success from './Success';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { selectLoggedInUser } from '../Authentication/Redux/AuthSlice';
 
 const Courses = ['Select Course', 'Under Graduate', 'Post Graduate',"Both"];
 
@@ -19,6 +21,15 @@ const PostJob = () => {
   const [showMinCPIInput, setShowMinCPIInput] = useState(false);
   const [showMinSPIInput, setShowMinSPIInput] = useState(false);
   const [selectedDepartments, setSelectedDepartments] = useState([]);
+  const user = useSelector(selectLoggedInUser);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      if (user?.data?.role !== 'TPO') {
+        navigate('/');
+      }
+    }
+  }, []);
 
   const handleCheckboxChange = (e) => {
     const { id, checked } = e.target;
